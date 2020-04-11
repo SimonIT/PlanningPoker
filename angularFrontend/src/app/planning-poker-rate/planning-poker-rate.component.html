@@ -1,0 +1,14 @@
+<h2>Bewerte die Story</h2>
+<div *ngIf="planningpoker.stories">
+  <div class="jumbotron text-center">
+    <h3 *ngIf="planningpoker.stories[page -1]">{{ planningpoker.stories[page -1].description }}</h3>
+  </div>
+  <div class="text-center">
+    <button class="btn" *ngFor="let card of planningpoker.availableCards"
+            (click)="rate(planningpoker.stories[page -1], card)">
+      <img src="{{ card.texturePath }}" alt="{{ card.value }}">
+    </button>
+  </div>
+  <ngb-pagination class="d-flex justify-content-center" [collectionSize]="planningpoker.stories.length"
+                  [(page)]="page"></ngb-pagination>
+</div>

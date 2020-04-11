@@ -1,0 +1,16 @@
+<h1>
+  {{planningpoker.name}} Ergebnis
+</h1>
+<ngb-accordion>
+  <ngb-panel *ngFor="let story of planningpoker.stories">
+    <ng-template ngbPanelTitle>
+      {{story.description}}
+    </ng-template>
+    <ng-template ngbPanelContent>
+      <div *ngFor="let card of planningpoker.availableCards">
+        <img src="{{card.texturePath}}">
+        <p>Some text inside the first card</p>
+      </div>
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>

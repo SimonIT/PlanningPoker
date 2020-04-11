@@ -1,0 +1,93 @@
+<form #planningpokerForm="ngForm" (ngSubmit)="save(planningpokerForm.value)">
+  <h2>{{planningpoker.name ? 'Edit' : 'Add'}} planningpoker</h2>
+
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input id="name" placeholder="Planning Poker Name" [(ngModel)]="planningpoker.name"
+           required name="name" #name class="form-control" autocomplete="off">
+  </div>
+  <div class="form-group">
+    <label for="description">Beschreibung</label>
+    <textarea id="description" placeholder="Beschreibung" [(ngModel)]="planningpoker.description"
+              name="description" #description class="form-control"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="date">Datum</label>
+    <input id="date" type="date" placeholder="" [(ngModel)]="newdate" name="date" #date
+           class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="time">Uhrzeit</label>
+    <input id="time" type="time" placeholder="" [(ngModel)]="newtime" name="time" #time
+           class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="invitations">Einladung senden an:</label>
+    <input id="invitations" [(ngModel)]="newUser" name="user" #user type="text" class="form-control"
+           [ngbTypeahead]="searchUser" (selectItem)="userSelected($event)" [resultFormatter]="formatUsername"/>
+    <table class="table table-bordered ">
+      <tr *ngFor="let user of usersToInvite">
+        <td>{{user.name}}</td>
+        <td>
+          <button class="btn" type="button" (click)="removeUser(user.id)"><i class="fas fa-times text-danger"></i>
+          </button>
+        </td>
+      </tr>
+      <tr *ngFor="let user of planningpoker.invitedUsers">
+        <td>{{user.name}}</td>
+        <td>
+          <button class="btn" type="button" (click)="removeUser(user.id)"><i class="fas fa-times text-danger"></i>
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="" id="allowWithoutInvitation"
+           [checked]="planningpoker.allowNotInvitedUser"
+           (change)="planningpoker.allowNotInvitedUser = !planningpoker.allowNotInvitedUser">
+    <label class="form-check-label" for="allowWithoutInvitation">
+      Erlaube nicht eingeladene Nutzer
+    </label>
+  </div>
+  <div class="form-group">
+    <label for="story">Story</label>
+    <div class="input-group">
+      <input id="story" type="text" placeholder="" name="story" #story class="form-control" autocomplete="off"
+             [(ngModel)]="newStoryDescription" (keydown.enter)="addStory();$event.preventDefault()">
+      <div class="input-group-append">
+        <button class="btn" type="button" (click)="addStory()"><i class="fas fa-plus"></i></button>
+      </div>
+    </div>
+    <table class="table table-bordered ">
+      <tr *ngFor="let story of planningpoker.stories">
+        <td>{{story.description}}
+          <input type="hidden" [(ngModel)]="story.description" name="storydescription" #storydescription>
+        </td>
+        <td>
+          <button class="btn" type="button" (click)="removeStory(story.id)">
+            <i class="fas fa-times text-danger"></i>
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <h6>Verfügbare Karten</h6>
+  <div class="form-check form-check-inline" *ngFor="let card of allCards">
+    <input class="form-check-input" type="checkbox" id="card{{ card.value }}" (change)="card.checked = !card.checked"
+           [checked]="card.checked">
+    <label class="form-check-label" for="card{{ card.value }}">
+      <img src="{{ card.texturePath }}" alt="{{ card.value }}">
+    </label>
+  </div>
+
+  <div class="btn-group">
+    <button class="btn btn-primary" type="submit"
+            [disabled]="!planningpokerForm.form.valid">Save
+    </button>
+    <button class="btn btn-danger" (click)="remove(planningpoker.href)"
+            *ngIf="planningpoker.href" type="button">Delete
+    </button>
+    <a class="btn btn-secondary" routerLink="/planningpoker-list">Cancel</a>
+  </div>
+</form>

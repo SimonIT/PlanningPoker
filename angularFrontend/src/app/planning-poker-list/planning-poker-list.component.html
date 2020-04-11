@@ -1,0 +1,43 @@
+<h2>Planning Poker Liste</h2>
+<form #searchForm="ngForm" (ngSubmit)="searchPlanningPoker(id.value, searchResult)">
+  <div class="input-group">
+    <input type="number" class="form-control" aria-label="Planning Poker Nummer" placeholder="Planning Poker Nummer"
+           name="id" #id required>
+    <div class="input-group-append">
+      <button class="btn" type="submit"><i class="fas fa-search"></i></button>
+    </div>
+  </div>
+</form>
+<div class="card-deck" *ngIf="planningpokers">
+  <div class="card" style="width: 18rem;" *ngFor="let planningpoker of planningpokers"
+       [routerLink]="['/planningpoker-rate/' + planningpoker.id]">
+    <div class="card-body">
+      <h5 class="card-title">{{planningpoker.name}}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">{{ planningpoker.id }}</h6>
+      <p class="card-text">{{ planningpoker.description }}</p>
+      <a class="card-link" [routerLink]="['/planningpoker-edit', planningpoker.id]"><i
+        class="fas fa-edit"></i> Bearbeiten</a>
+      <p class="card-text">
+        <small class="text-muted">{{planningpoker.date | date : "EEEE, dd.MM.yyyy HH:mm" }}</small>
+      </p>
+    </div>
+  </div>
+</div>
+<button class="btn" [routerLink]="['/planningpoker-add']"><i class="fas fa-plus"></i> Neu</button>
+
+<ng-template #searchResult let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">{{searchedPlanningpoker.name}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    {{searchedPlanningpoker.description}}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="joinPlanningpoker(searchedPlanningpoker)">Join</button>
+    <button type="button" class="btn btn-secondary" (click)="d">Close</button>
+  </div>
+</ng-template>
+
