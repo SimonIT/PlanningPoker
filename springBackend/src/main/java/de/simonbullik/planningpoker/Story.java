@@ -12,8 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Random;
 
-@Data
-@Entity
+@Data /* creates getter, setter, ... */
+@Entity /* For saving at the database */
 public class Story {
     @Id
     @GeneratedValue
@@ -32,5 +32,13 @@ public class Story {
     @Override
     public String toString() {
         return this.description;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Story) {
+            return ((Story) obj).getId() == this.getId();
+        }
+        return false;
     }
 }

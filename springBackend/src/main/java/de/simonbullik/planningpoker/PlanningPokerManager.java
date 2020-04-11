@@ -1,16 +1,15 @@
 package de.simonbullik.planningpoker;
 
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.*;
 
 @RestController
 @RequestMapping(path = "/planningpokers")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://192.168.2.17:4200")
 class PlanningPokerManager {
 
     private PlanningPokerRepository planningPokerRepository;
@@ -20,34 +19,58 @@ class PlanningPokerManager {
         this.planningPokerRepository = repository;
     }
 
-    @RequestMapping(path = "/createNew")
-    PlanningPoker createNewPlanningPoker(@RequestParam(value = "owner") User owner, @RequestParam(value = "stories") Story... stories) {
-        PlanningPoker planningPoker = new PlanningPoker(owner);
-        for (Story story : stories) {
-            planningPoker.getStories().add(story);
-        }
-        this.planningPokerRepository.save(planningPoker);
-        return planningPoker;
-    }
-
-    @RequestMapping(path = "/getAll")
-    Collection<PlanningPoker> getPlanningPokerRepository() {
-        return new ArrayList<>(planningPokerRepository.findAll());
-    }
-
+    /**
+     * filters all planningpokers which the user created
+     *
+     * @param user the owner
+     * @return list with planningpokers
+     */
     @RequestMapping(path = "/getByOwner")
-    Collection<PlanningPoker> getPlanningPokersByOwner(@RequestParam(value = "user") User user) {
-        List<PlanningPoker> planningPokersWithOneOwner = new ArrayList<>();
+    Collection<PlanningPoker> getPlanningPokersByOwner(@RequestBody User user) {
+        List<PlanningPoker> planningPokers = Lists.newArrayList();
         for (PlanningPoker planningPoker : this.planningPokerRepository.findAll()) {
-            if (planningPoker.getOwner() == user) {
-                planningPokersWithOneOwner.add(planningPoker);
+            if (planningPoker.getOwner() != null && planningPoker.getOwner().equals(user)) {
+                planningPokers.add(planningPoker);
             }
         }
-        return planningPokersWithOneOwner;
+        return planningPokers;
     }
 
-    @RequestMapping(path = "/rate")
-    void rate(User user, Story story, Card card) {
-        //user.getRating().add(Rating.create(story, card));
+    /**
+     * filters all planningpokers where the user joined
+     *
+     * @param user the joined user
+     * @return list with planningpokers
+     */
+    @RequestMapping(path = "/getJoined")
+    Collection<PlanningPoker> getJoinedPlanningPokers(@RequestBody User user) {
+        List<PlanningPoker> planningPokers = Lists.newArrayList();
+        for (PlanningPoker planningPoker : this.planningPokerRepository.findAll()) {
+            for (User joinedUser : planningPoker.getJoinedUsers()) {
+                if (joinedUser.equals(user)) {
+                    planningPokers.add(planningPoker);
+                }
+            }
+        }
+        return planningPokers;
+    }
+
+    /**
+     * filters all planningpokers where the user were invited
+     *
+     * @param user the invited user
+     * @return list with planningpokers
+     */
+    @RequestMapping(path = "/getInvited")
+    Collection<PlanningPoker> getInvitedPlanningPokers(@RequestBody User user) {
+        List<PlanningPoker> planningPokers = Lists.newArrayList();
+        for (PlanningPoker planningPoker : this.planningPokerRepository.findAll()) {
+            for (User joinedUser : planningPoker.getInvitedUsers()) {
+                if (joinedUser.equals(user)) {
+                    planningPokers.add(planningPoker);
+                }
+            }
+        }
+        return planningPokers;
     }
 }

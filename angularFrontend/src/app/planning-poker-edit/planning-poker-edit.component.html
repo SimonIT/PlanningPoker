@@ -1,10 +1,10 @@
 <form #planningpokerForm="ngForm" (ngSubmit)="save(planningpokerForm.value)">
-  <h2>{{planningpoker.name ? 'Edit' : 'Add'}} planningpoker</h2>
+  <h2>Planning Poker {{planningpoker.name ? 'Bearbeiten' : 'Hinzufügen'}}</h2>
 
   <div class="form-group">
     <label for="name">Name</label>
     <input id="name" placeholder="Planning Poker Name" [(ngModel)]="planningpoker.name"
-           required name="name" #name class="form-control" autocomplete="off">
+           required name="name" #fullName class="form-control" autocomplete="off">
   </div>
   <div class="form-group">
     <label for="description">Beschreibung</label>
@@ -27,16 +27,16 @@
            [ngbTypeahead]="searchUser" (selectItem)="userSelected($event)" [resultFormatter]="formatUsername"/>
     <table class="table table-bordered ">
       <tr *ngFor="let user of usersToInvite">
-        <td>{{user.name}}</td>
+        <td>{{user.fullName}}</td>
         <td>
-          <button class="btn" type="button" (click)="removeUser(user.id)"><i class="fas fa-times text-danger"></i>
+          <button class="btn" type="button" (click)="removeUser(user)"><i class="fas fa-times text-danger"></i>
           </button>
         </td>
       </tr>
-      <tr *ngFor="let user of planningpoker.invitedUsers">
-        <td>{{user.name}}</td>
+      <tr *ngFor="let user of alreadyInvited">
+        <td>{{user.fullName}}</td>
         <td>
-          <button class="btn" type="button" (click)="removeUser(user.id)"><i class="fas fa-times text-danger"></i>
+          <button class="btn" type="button" (click)="removeInvitedUser(user)"><i class="fas fa-times text-danger"></i>
           </button>
         </td>
       </tr>
@@ -60,12 +60,18 @@
       </div>
     </div>
     <table class="table table-bordered ">
-      <tr *ngFor="let story of planningpoker.stories">
-        <td>{{story.description}}
-          <input type="hidden" [(ngModel)]="story.description" name="storydescription" #storydescription>
-        </td>
+      <tr *ngFor="let newStory of storiesToAdd">
+        <td>{{newStory}}</td>
         <td>
-          <button class="btn" type="button" (click)="removeStory(story.id)">
+          <button class="btn" type="button" (click)="removeStory(newStory)">
+            <i class="fas fa-times text-danger"></i>
+          </button>
+        </td>
+      </tr>
+      <tr *ngFor="let savedStory of currentStories">
+        <td>{{savedStory.description}}</td>
+        <td>
+          <button class="btn" type="button" (click)="removeSavedStory(savedStory)">
             <i class="fas fa-times text-danger"></i>
           </button>
         </td>
@@ -80,6 +86,7 @@
       <img src="{{ card.texturePath }}" alt="{{ card.value }}">
     </label>
   </div>
+  <hr/>
 
   <div class="btn-group">
     <button class="btn btn-primary" type="submit"

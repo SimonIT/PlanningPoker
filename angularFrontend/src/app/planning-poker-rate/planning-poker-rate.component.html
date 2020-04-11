@@ -1,14 +1,25 @@
-<h2>Bewerte die Story</h2>
-<div *ngIf="planningpoker.stories">
+<div *ngIf="stories">
+  <h2>Bewerte die Story</h2>
   <div class="jumbotron text-center">
-    <h3 *ngIf="planningpoker.stories[page -1]">{{ planningpoker.stories[page -1].description }}</h3>
+    <h3 *ngIf="stories[page -1]">{{ stories[page -1].description }}</h3>
   </div>
   <div class="text-center">
-    <button class="btn" *ngFor="let card of planningpoker.availableCards"
-            (click)="rate(planningpoker.stories[page -1], card)">
+    <button class="btn" *ngFor="let card of cards"
+            (click)="rate(planningpoker, stories[page -1], card)">
       <img src="{{ card.texturePath }}" alt="{{ card.value }}">
     </button>
   </div>
-  <ngb-pagination class="d-flex justify-content-center" [collectionSize]="planningpoker.stories.length"
+  <h2 *ngIf="showResult">Das Ergebnis von anderen:</h2>
+  <div *ngIf="showResult" class="card-deck">
+    <div *ngFor="let rating of ratings" class="card" style="width: 6rem;">
+      <img class="card-img-top" src="{{ rating.card.texturePath }}" alt="Card image cap">
+      <div class="card-body">
+        <h6 class="card-title">{{ rating.owner.fullName }}</h6>
+      </div>
+    </div>
+  </div>
+  <a *ngIf="showResult && page == stories.length" class="btn btn-primary" routerLink="/planningpoker-result/{{ id }}"
+     role="button">Gehe zum Gesamtergebnis <i class="fas fa-chevron-circle-right"></i></a>
+  <ngb-pagination (pageChange)="onPager()" class="d-flex justify-content-center" [collectionSize]="stories.length"
                   [(page)]="page"></ngb-pagination>
 </div>

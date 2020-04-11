@@ -10,7 +10,7 @@ import java.util.*;
 
 @Getter
 @Setter
-@Entity
+@Entity /* For saving at the database */
 @EqualsAndHashCode
 class PlanningPoker {
 
@@ -18,37 +18,41 @@ class PlanningPoker {
     @GeneratedValue
     private int id;
 
-    private int status;
+    int status;
+    //TODO different states suggestions: (Maybe ENUM) open, started, closed, (...); open ->  user can join, started -> user can rate, closed -> only the result is displayable; owner has button to start and close (Maybe reopen?)
 
-    @NonNull
     private String name;
 
     private String description;
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private Date date;
 
     @OneToOne
+    @Cascade(CascadeType.SAVE_UPDATE)
     private User owner;
 
     boolean allowNotInvitedUser = false;
 
-    @OneToMany
-    @Cascade(CascadeType.ALL)
+    @ManyToMany
+    @Cascade(CascadeType.SAVE_UPDATE)
     private List<User> invitedUsers = new ArrayList<>();
 
-    @OneToMany
-    @Cascade(CascadeType.ALL)
+    @ManyToMany
+    @Cascade(CascadeType.SAVE_UPDATE)
     private List<User> joinedUsers = new ArrayList<>();
 
     @OneToMany
-    @Cascade(CascadeType.ALL)
+    @Cascade(CascadeType.SAVE_UPDATE) //TODO delete the storie if the plannningpoker gets deleted
     private List<Story> stories = new ArrayList<>();
 
-    @OneToMany
-    @Cascade(CascadeType.ALL)
+    @ManyToMany
+    @Cascade(CascadeType.SAVE_UPDATE)
     private List<Card> availableCards = new ArrayList<>();
 
+    /**
+     * required for spring
+     */
     PlanningPoker() {
     }
 
@@ -61,25 +65,12 @@ class PlanningPoker {
         return this.id + " " + this.name;
     }
 
-    /*
-    Map<Story, Map<Card, Integer>> getResult() {
-        Map<Story, Map<Card, Integer>> stats = new HashMap<>();
-        for (Story story : this.stories) {
-            Map<Card, Integer> storyStat = new HashMap<>();
-            for (User user : this.joinedUsers) {
-                if (user.getRating(story) != null) {
-                    if (storyStat.containsKey(user.getRating(story))) {
-                        storyStat.put(user.getRating(story), storyStat.get(user.getRating(story)) + 1);
-                    } else {
-                        storyStat.put(user.getRating(story), 1);
-                    }
-                }
-            }
-            if (storyStat.size() > 0) {
-                stats.put(story, storyStat);
-            }
-        }
-        return stats;
-    }*/
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof PlanningPoker) {
+            return ((PlanningPoker) obj).getId() == this.getId();
+        }
+        return false;
+    }
 }

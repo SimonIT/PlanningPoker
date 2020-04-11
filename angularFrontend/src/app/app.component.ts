@@ -1,29 +1,34 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
-import {AppService} from './app.service';
-import {finalize} from 'rxjs/operators';
+import {AuthService} from './auth.service';
+import {Meta} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Planning Poker';
+  currentUser;
 
-  constructor(private app: AppService, private http: HttpClient, private router: Router) {
-    this.app.authenticate(undefined, undefined);
+  constructor(private authService: AuthService, private router: Router, private meta: Meta) {
+    this.meta.addTag({name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no'});
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
   }
 
-  authenticated() {
-    return this.app.authenticated;
+  logOut() {
+    this.authService.logOut().subscribe(
+      data => {
+        this.currentUser = undefined;
+        localStorage.removeItem('currentUser');
+        this.router.navigate(['/login']);
+      },
+      error => {
+      });
   }
 
-  logout() {
-    this.http.post('logout', {}).pipe(finalize(() => {
-      this.app.authenticated = false;
-      this.router.navigateByUrl('/login');
-    })).subscribe();
+  ngOnInit(): void {
+
   }
 }

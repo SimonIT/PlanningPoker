@@ -9,12 +9,15 @@ import {UserService} from './user.service';
 import {PlanningPokerListComponent} from './planning-poker-list/planning-poker-list.component';
 import {PlanningPokerEditComponent} from './planning-poker-edit/planning-poker-edit.component';
 import {PlanningPokerRateComponent} from './planning-poker-rate/planning-poker-rate.component';
-import {PlanningPokerLoginComponent} from './planning-poker-login/planning-poker-login.component';
+import {LoginComponent} from './login/login.component';
 import {PlanningPokerResultComponent} from './planning-poker-result/planning-poker-result.component';
 import {WelcomeComponent} from './welcome/welcome.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {RouterModule, Routes} from '@angular/router';
 import {FormsModule} from '@angular/forms';
+import {AuthService} from './auth.service';
+import {StoryService} from './story.service';
+import {RatingService} from './rating.service';
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -35,7 +38,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'login',
-    component: PlanningPokerLoginComponent
+    component: LoginComponent
   },
   {
     path: 'planningpoker-list',
@@ -63,12 +66,11 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    FormsModule,
     WelcomeComponent,
+    LoginComponent,
     PlanningPokerListComponent,
     PlanningPokerEditComponent,
     PlanningPokerRateComponent,
-    PlanningPokerLoginComponent,
     PlanningPokerResultComponent
   ],
   imports: [
@@ -78,7 +80,7 @@ const appRoutes: Routes = [
     FormsModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [PlanningPokerService, CardService, UserService,
+  providers: [PlanningPokerService, CardService, UserService, RatingService, StoryService, AuthService,
     {provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })

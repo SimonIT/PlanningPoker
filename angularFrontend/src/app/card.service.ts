@@ -9,6 +9,6 @@ export class CardService {
   }
 
   getAll(): Observable<any> {
-    return this.http.get('//localhost:8080/cards/getAll');
+    return this.http.get('//' + window.location.hostname + ':8080/cardManager/getAll');
   }
 }

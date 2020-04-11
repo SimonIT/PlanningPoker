@@ -8,23 +8,26 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Getter
-@Entity
+@Entity /* For saving at the database */
 @Component
 public class Card {
     @Id
-    @GeneratedValue
     int id;
 
     private String value;
 
     private String texturePath;
 
+    /**
+     * required for spring
+     */
     Card() {
 
     }
 
     Card(String value, String texturePath) {
         this.value = value;
+        this.id = value.hashCode(); //Sets the id to the hash, to make sure a card has always the same id because spring will add after a new start duplicate cards
         this.texturePath = texturePath;
     }
 

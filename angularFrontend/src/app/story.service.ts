@@ -6,7 +6,7 @@ import {Observable} from 'rxjs/internal/Observable';
   providedIn: 'root'
 })
 export class StoryService {
-  public API = '//localhost:8080/stories/';
+  public API = '//' + window.location.hostname + ':8080/stories/';
 
   constructor(private http: HttpClient) {
   }

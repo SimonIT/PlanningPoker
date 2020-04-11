@@ -1,16 +1,21 @@
 <h1>
-  {{planningpoker.name}} Ergebnis
+  Ergebnis
 </h1>
 <ngb-accordion>
-  <ngb-panel *ngFor="let story of planningpoker.stories">
+  <ngb-panel *ngFor="let i of index">
     <ng-template ngbPanelTitle>
-      {{story.description}}
+      {{stories[i].description}} <i class="fas fa-chevron-down"></i>
     </ng-template>
     <ng-template ngbPanelContent>
-      <div *ngFor="let card of planningpoker.availableCards">
-        <img src="{{card.texturePath}}">
-        <p>Some text inside the first card</p>
+      <div class="card-deck">
+        <div *ngFor="let rating of allRatings[i]" class="card" style="width: 6rem;">
+          <img class="card-img-top" src="{{ rating.card.texturePath }}" alt="Card image cap">
+          <div class="card-body">
+            <h6 class="card-title">{{ rating.owner.fullName }}</h6>
+          </div>
+        </div>
       </div>
     </ng-template>
   </ngb-panel>
 </ngb-accordion>
+

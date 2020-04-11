@@ -4,8 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-@Data
-@Entity
+@Data /* creates getter, setter, ... */
+@Entity /* For saving at the database */
 public class Rating {
     @Id
     @GeneratedValue
@@ -18,8 +18,19 @@ public class Rating {
         return rating;
     }
 
+    @OneToOne
+    PlanningPoker planningPoker;
+
+    @OneToOne
+    User owner;
+
     @ManyToOne
     private Story story;
     @ManyToOne
     private Card card;
+
+    @Override
+    public String toString() {
+        return "Rating [id=" + getId() + ", username=" + getOwner().username + ", story=" + getStory().getId() + ", card=" + getCard().getValue() + "]";
+    }
 }

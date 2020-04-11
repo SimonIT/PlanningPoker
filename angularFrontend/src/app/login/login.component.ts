@@ -1,31 +1,42 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../auth.service';
+import {UserService} from '../user.service';
 
 @Component({
   selector: 'app-planning-poker-login',
-  templateUrl: './planning-poker-login.component.html',
-  styleUrls: ['./planning-poker-login.component.css'],
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class PlanningPokerLoginComponent implements OnInit {
+export class LoginComponent implements OnInit {
   user: any = {};
   errorMessage: string;
 
   ngOnInit(): void {
   }
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private userService: UserService, private router: Router) {
   }
 
+  /**
+   * fetchs the from the ldap and saves it as string in the local storage
+   */
   login() {
-    this.authService.logIn(this.user).subscribe((data: any) => {
+    this.userService.getUserByUsername(this.user.username).subscribe((user: any) => {
+      if (user && user.guid) {
+        localStorage.setItem('currentUser', JSON.stringify(user));
         this.router.navigate(['/welcome']);
-      }, err => {
-        this.errorMessage = 'error :  Username or password is incorrect';
+      } else {
+        this.errorMessage = 'User ' + this.user.username + ' not found!';
       }
-    );
-
+    });
   }
 
+  /**
+   * remove the error message to hide
+   */
+  public closeAlert() {
+    this.errorMessage = undefined;
+  }
 }
