@@ -23,7 +23,7 @@
     "@fortawesome/fontawesome": "^1.1.8",
     "@ng-bootstrap/ng-bootstrap": "^2.2.2",
     "bootstrap": "^4.4.1",
-    "core-js": "^2.6.11",
+    "core-js": "^3.6.5",
     "jquery": "^3.5.0",
     "popper.js": "^1.16.1",
     "rxjs": "^6.5.5",
