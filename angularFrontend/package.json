@@ -22,7 +22,7 @@
     "@angular/router": "^6.1.10",
     "@fortawesome/fontawesome": "^1.1.8",
     "@ng-bootstrap/ng-bootstrap": "^3.3.1",
-    "bootstrap": "^4.5.1",
+    "bootstrap": "^4.5.2",
     "core-js": "^3.6.5",
     "jquery": "^3.5.1",
     "popper.js": "^1.16.1",
