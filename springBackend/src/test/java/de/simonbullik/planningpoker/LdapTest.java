@@ -1,20 +1,16 @@
 package de.simonbullik.planningpoker;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.ldap.AuthenticationException;
 import org.springframework.ldap.core.support.LdapContextSource;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.naming.NamingEnumeration;
-import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class LdapTest {
 
