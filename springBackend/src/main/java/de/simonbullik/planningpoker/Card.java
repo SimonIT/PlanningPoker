@@ -4,7 +4,6 @@ import lombok.Getter;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Getter
@@ -21,7 +20,7 @@ public class Card {
     /**
      * required for spring
      */
-    Card() {
+    protected Card() {
 
     }
 

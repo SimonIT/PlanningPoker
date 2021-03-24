@@ -53,7 +53,7 @@ class PlanningPoker {
     /**
      * required for spring
      */
-    PlanningPoker() {
+    protected PlanningPoker() {
     }
 
     PlanningPoker(User owner) {

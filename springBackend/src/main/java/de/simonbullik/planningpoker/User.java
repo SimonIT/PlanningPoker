@@ -48,7 +48,7 @@ public class User implements UserDetails {
     /**
      * required for spring
      */
-    User() {
+    protected User() {
     }
 
     User(String fullName) {
