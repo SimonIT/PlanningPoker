@@ -5,7 +5,13 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: planningpoker
+        ports: [ "3306:3306" ]
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 1.8
