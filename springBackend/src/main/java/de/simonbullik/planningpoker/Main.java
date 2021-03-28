@@ -25,7 +25,7 @@ public class Main {
     public LdapContextSource contextSource() {
         LdapContextSource contextSource = new LdapContextSource();
 
-        contextSource.setUrl("ldap://intern.neusta.de:3268");
+        contextSource.setUrl("ldap://localhost");
         contextSource.setBase("DC=intern,DC=neusta,DC=de");
 
         return contextSource;
