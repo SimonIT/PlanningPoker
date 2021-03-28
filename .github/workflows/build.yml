@@ -12,6 +12,12 @@ jobs:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_DATABASE: planningpoker
         ports: [ "3306:3306" ]
+      ldap:
+        image: osixia/openldap:latest
+        env:
+          LDAP_DOMAIN: intern.neusta.de
+          LDAP_ADMIN_PASSWORD: Praktikum2018
+        ports: [ "389:389", "636:636" ]
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 1.8
