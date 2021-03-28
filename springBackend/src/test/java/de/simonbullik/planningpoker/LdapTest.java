@@ -21,7 +21,7 @@ public class LdapTest {
     public void authenticateTest() throws Exception {
         try {
             DirContext context = contextSource
-                    .getContext("CN=Simon Bullik,OU=User,OU=HEC,OU=NEUSTA,DC=intern,DC=neusta,DC=de", "Praktikum2018");
+                    .getContext("CN=admin,OU=User,OU=HEC,OU=NEUSTA,DC=intern,DC=neusta,DC=de", "Praktikum2018");
 
             String searchFilter = "(&(sAMAccountType=805306368)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))";
 
