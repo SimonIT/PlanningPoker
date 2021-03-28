@@ -18,7 +18,7 @@ import java.util.*;
 public class LdapManager {
     private static final String group = "OU=NEUSTA";
     //TODO put into configuration file
-    private static String defaultUser = "CN=admin,OU=User,OU=HEC,OU=NEUSTA,DC=intern,DC=neusta,DC=de"; // Fill in the distinguished name for a default user to fetch all data
+    private static String defaultUser = "CN=admin,OU=User,DC=intern,DC=neusta,DC=de"; // Fill in the distinguished name for a default user to fetch all data
     private static String defaultPassword = "Praktikum2018"; // Fill in the password for the corresponding user
 
     private LdapContextSource contextSource;
