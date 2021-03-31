@@ -27,3 +27,11 @@ jobs:
       - name: Build with Maven
         working-directory: springBackend
         run: mvn --batch-mode --update-snapshots verify
+      - name: Setup node.js
+        uses: actions/setup-node@v2
+      - run: npm ci
+        working-directory: angularFrontend
+      - run: npm run build --if-present
+        working-directory: angularFrontend
+      - run: npm test
+        working-directory: angularFrontend
