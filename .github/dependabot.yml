@@ -1,0 +1,14 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/angularFrontend"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+- package-ecosystem: maven
+  directory: "/springBackend"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
