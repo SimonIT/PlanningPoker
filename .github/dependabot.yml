@@ -6,30 +6,9 @@ updates:
     interval: daily
     time: "04:00"
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: "@angular/language-service"
-    versions:
-    - 11.2.5
-    - 11.2.9
-  - dependency-name: karma
-    versions:
-    - 6.1.2
-  - dependency-name: "@types/node"
-    versions:
-    - 14.14.32
-  - dependency-name: rxjs
-    versions:
-    - 6.6.6
-  - dependency-name: "@types/jasmine"
-    versions:
-    - 3.6.4
 - package-ecosystem: maven
   directory: "/springBackend"
   schedule:
     interval: daily
     time: "04:00"
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: org.springframework.boot:spring-boot-starter-parent
-    versions:
-    - 2.4.2
