@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/internal/Observable';
 import {HttpClient} from '@angular/common/http';
-import {PlanningPokerService} from './planning-poker.service';
 
 @Injectable({
   providedIn: 'root'
